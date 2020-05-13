@@ -1,0 +1,34 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: cimg/base:2020.01
+    working_directory: ~/code
+
+    steps:
+      - checkout
+      - run: ./build.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build/*.txt
+  
+  use-output:
+    docker: 
+      - image: cimg/base:2020.01
+    steps:
+      - attach_workspace:
+          at: /workspace
+      - checkout
+      - run: ls /workspace
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build
+      - use-output:
+          requires:
+            - build
+
