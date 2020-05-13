@@ -19,9 +19,12 @@ jobs:
       - image: cimg/base:2020.01
     steps:
       - attach_workspace:
-          at: /workspace
+          at: /tmp/workspace
       - checkout
-      - run: ls /workspace
+      - run: 
+          command: |
+            ls /tmp/workspace/build
+            cat /tmp/workspace/build/output.txt
 
 workflows:
   version: 2
